@@ -28,4 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello/', include('hello.urls')),
     path('dictionary/', include('dictionary.urls')),
+    path('guestbook/', include('guestbook.urls')),
 ]
