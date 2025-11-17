@@ -6,21 +6,14 @@ from django.views.generic.edit import BaseFormView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django import forms
 from .models import Post
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['comment']
-        widgets = {
-            'comment': forms.Textarea
-        }
+from django.views.generic.list import ListView
 
 class PostView(LoginRequiredMixin, CreateView):
     login_url = '/login/'
-    form_class = PostForm
+    #form_class = PostForm
     model = Post
     template_name = 'guestbook/post.html'
-    #fields = ['comment']
+    fields = ['comment']
     success_url = reverse_lazy('guestbook:index')
     def form_valid(self, form):
         # Set the form's author to the submitter if the form is valid
@@ -28,7 +21,8 @@ class PostView(LoginRequiredMixin, CreateView):
         super().form_valid(form)
         return HttpResponseRedirect(self.get_success_url())
 
-def index(request):
-    posts = Post.objects.all().order_by('-date')
-    context = {"posts": posts}
-    return render(request, 'guestbook/index.html', context)
+class IndexView(ListView):
+    model = Post
+    template_name = 'guestbook/index.html'
+    context_object_name = 'posts'
+    queryset = Post.objects.all().order_by('-date')
