@@ -7,8 +7,8 @@ from .views import *
 
 app_name = 'gallery'
 urlpatterns = [
-    path('', index, name = 'index'),
-    path('image_upload', image_upload, name = 'image_upload'),
+    path('', IndexView.as_view(), name = 'index'),
+    path('image_upload', ImageUploadView.as_view(), name = 'image_upload'),
     path('success', TemplateView.as_view(template_name='gallery/success.html'), name = 'success'),
     path('delete/<int:pk>/', PostDeleteView.as_view(), name='delete'),
 ]

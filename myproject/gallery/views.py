@@ -1,24 +1,23 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.list import ListView
 from django.urls import reverse_lazy
 from .models import Post
 from .forms import UploadForm
 
-def index(request):
-    if request.method == 'GET':
-        posts = Post.objects.all()
-        return render(request, 'gallery/index.html', {'posts' : posts})
+class IndexView(ListView):
+    model = Post
+    template_name = 'gallery/index.html'
+    context_object_name = 'posts'
+    paginate_by = 6
+    ordering = ['-pub_date']
 
-def image_upload(request):
-    if request.method == 'POST':
-        form = UploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('gallery:success')
-    else:
-        form = UploadForm()
-    return render(request, 'gallery/upload.html', {'form' : form})
+class ImageUploadView(CreateView):
+    model = Post
+    form_class = UploadForm
+    template_name = 'gallery/upload.html'
+    success_url = reverse_lazy('gallery:success')
 
 class PostDeleteView(DeleteView):
     model = Post

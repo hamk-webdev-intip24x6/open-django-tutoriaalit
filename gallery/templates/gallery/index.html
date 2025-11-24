@@ -1,0 +1,28 @@
+{% if is_paginated %}
+<nav class="gallery-pagination" aria-label="Gallery pages">
+    <div class="gallery-pagination__status">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+    </div>
+    <div class="gallery-pagination__controls">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-primary">Previous</a>
+        {% else %}
+            <span class="btn btn-outline-secondary disabled">Previous</span>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-primary">Next</a>
+        {% else %}
+            <span class="btn btn-outline-secondary disabled">Next</span>
+        {% endif %}
+    </div>
+    <div class="gallery-pagination__pages">
+        {% for num in page_obj.paginator.page_range %}
+            {% if num == page_obj.number %}
+                <span class="btn btn-primary active">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}" class="btn btn-outline-primary">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</nav>
+{% endif %}
