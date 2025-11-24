@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 <h1>Image Upload</h1>
 <form method = "post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -7,3 +9,5 @@
     <button type="submit">Upload</button>
 </form>
 <p><a href="{% url 'gallery:index' %}">Go back to main page</a></p>
+{% endblock %}
+
