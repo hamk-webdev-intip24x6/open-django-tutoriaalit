@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.views.generic.edit import DeleteView
+from django.urls import reverse_lazy
 from .models import Post
 from .forms import UploadForm
 
@@ -17,4 +19,9 @@ def image_upload(request):
     else:
         form = UploadForm()
     return render(request, 'gallery/upload.html', {'form' : form})
+
+class PostDeleteView(DeleteView):
+    model = Post
+    template_name = 'gallery/post_confirm_delete.html'
+    success_url = reverse_lazy('gallery:index')
 

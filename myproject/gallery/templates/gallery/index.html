@@ -9,6 +9,7 @@
         <div class="col-md-4">
         <p>{{ post.description }}</p>
         <img src="{{ post.image.url }}" class="img-fluid" />
+        <a href="{% url 'gallery:delete' post.pk %}">Delete</a>
         </div>
         {% endfor %}
     </div>
